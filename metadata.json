@@ -1,0 +1,8 @@
+{
+  "name": "Zara AI - Your Smart AI Voice Assistant",
+  "description": "A premium futuristic AI voice companion and smart assistant featuring natural voice conversations, AI avatar, multilingual support, daily planner, and memory.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

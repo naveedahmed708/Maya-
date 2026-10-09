@@ -1,0 +1,137 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile and AI preferences",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "displayName": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 150 },
+        "photoURL": { "type": "string", "maxLength": 500 },
+        "coins": { "type": "number" },
+        "selectedVoice": { "type": "string", "maxLength": 50 },
+        "selectedPersonality": { "type": "string", "maxLength": 50 },
+        "selectedLanguage": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["userId", "displayName"]
+    },
+    "UserSetting": {
+      "title": "UserSetting",
+      "description": "User voice and application settings",
+      "type": "object",
+      "properties": {
+        "autoListen": { "type": "boolean" },
+        "voiceActivation": { "type": "boolean" },
+        "voiceResponses": { "type": "boolean" },
+        "soundEffects": { "type": "boolean" },
+        "hapticFeedback": { "type": "boolean" },
+        "memoryEnabled": { "type": "boolean" },
+        "streamingResponses": { "type": "boolean" },
+        "theme": { "type": "string", "maxLength": 30 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      }
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "Chat session with Zara AI",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "category": { "type": "string", "maxLength": 50 },
+        "lastMessage": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "userId", "title"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Single conversational message in a conversation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "conversationId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "sender": { "type": "string", "enum": ["user", "zara"] },
+        "text": { "type": "string", "maxLength": 10000 },
+        "audioUrl": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "userId", "sender", "text"]
+    },
+    "AIMemory": {
+      "title": "AIMemory",
+      "description": "Remembered user preference or context",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "key": { "type": "string", "maxLength": 100 },
+        "value": { "type": "string", "maxLength": 500 },
+        "category": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "userId", "key", "value"]
+    },
+    "CoinTransaction": {
+      "title": "CoinTransaction",
+      "description": "Coin credit or debit record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "amount": { "type": "number" },
+        "type": { "type": "string", "maxLength": 50 },
+        "description": { "type": "string", "maxLength": 200 },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "userId", "amount", "type"]
+    },
+    "AdminConfig": {
+      "title": "AdminConfig",
+      "description": "Global application config and prompts",
+      "type": "object",
+      "properties": {
+        "systemPrompt": { "type": "string", "maxLength": 5000 },
+        "defaultModel": { "type": "string", "maxLength": 100 },
+        "temperature": { "type": "number" },
+        "version": { "type": "string", "maxLength": 20 }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Private profile of the authenticated user"
+    },
+    "/users/{userId}/settings/{settingId}": {
+      "schema": "UserSetting",
+      "description": "Application settings for a specific user"
+    },
+    "/users/{userId}/conversations/{conversationId}": {
+      "schema": "Conversation",
+      "description": "Conversations owned by the user"
+    },
+    "/users/{userId}/conversations/{conversationId}/messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Messages belonging to the conversation"
+    },
+    "/users/{userId}/memories/{memoryId}": {
+      "schema": "AIMemory",
+      "description": "Memories stored for the user"
+    },
+    "/users/{userId}/coinTransactions/{txId}": {
+      "schema": "CoinTransaction",
+      "description": "Coin transactions for the user"
+    },
+    "/adminConfigs/{configId}": {
+      "schema": "AdminConfig",
+      "description": "Admin configuration settings"
+    }
+  }
+}
