@@ -1,0 +1,41 @@
+name: Build Android APK
+
+on:
+workflow_dispatch:
+push:
+branches:
+- main
+
+jobs:
+build:
+runs-on: ubuntu-latest
+
+steps:
+  - name: Checkout code
+    uses: actions/checkout@v4
+
+  - name: Check project files
+    run: |
+      ls -la
+      if [ ! -f package.json ]; then
+        echo "Error: React project files are missing."
+        exit 1
+      fi
+
+  - name: Setup Node.js
+    uses: actions/setup-node@v4
+    with:
+      node-version: 22
+      cache: npm
+
+  - name: Install dependencies
+    run: npm install
+
+  - name: Build web app
+    run: npm run build
+
+  - name: Upload web build
+    uses: actions/upload-artifact@v4
+    with:
+      name: muskan-ai-web-build
+      path: dist/
